@@ -772,7 +772,10 @@ class ConfigSearch:
         sickbeard.NZBGET_USERNAME = nzbget_username
         sickbeard.NZBGET_PASSWORD = nzbget_password
         sickbeard.NZBGET_CATEGORY = nzbget_category
-
+        sickbeard.NZBGET_HOST_MAC = nzbget_host_mac
+        sickbeard.NZBGET_WAKE_RETRIES = nzbget_wake_retries
+        sickbeard.NZBGET_WAKE_TIMEOUT = nzbget_wake_timeout
+        
         # Torrent Search
         sickbeard.USE_TORRENTS = config.checkbox_to_value(use_torrents)
 

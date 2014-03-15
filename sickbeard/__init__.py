@@ -208,6 +208,9 @@ NZBGET_USERNAME = None
 NZBGET_PASSWORD = None
 NZBGET_CATEGORY = None
 NZBGET_HOST = None
+NZBGET_HOST_MAC = None
+NZBGET_WAKE_RETRIES = 5
+NZBGET_WAKE_TIMEOUT = 20
 
 USE_XBMC = False
 XBMC_NOTIFY_ONSNATCH = False
@@ -319,7 +322,7 @@ def initialize(consoleLogging=True):
         global ACTUAL_LOG_DIR, LOG_DIR, WEB_PORT, WEB_LOG, WEB_ROOT, WEB_USERNAME, WEB_PASSWORD, WEB_HOST, WEB_IPV6, USE_API, API_KEY, ENABLE_HTTPS, HTTPS_CERT, HTTPS_KEY, \
                 USE_NZBS, USE_TORRENTS, NZB_METHOD, NZB_DIR, DOWNLOAD_PROPERS, \
                 SAB_USERNAME, SAB_PASSWORD, SAB_APIKEY, SAB_CATEGORY, SAB_HOST, SAB_HOST_MAC, SAB_WAKE_RETRIES, SAB_WAKE_TIMEOUT, \
-                NZBGET_USERNAME, NZBGET_PASSWORD, NZBGET_CATEGORY, NZBGET_HOST, currentSearchScheduler, backlogSearchScheduler, \
+                NZBGET_USERNAME, NZBGET_PASSWORD, NZBGET_CATEGORY, NZBGET_HOST, NZBGET_HOST_MAC, NZBGET_WAKE_RETRIES, NZBGET_WAKE_TIMEOUT, currentSearchScheduler, backlogSearchScheduler, \
                 USE_XBMC, XBMC_NOTIFY_ONSNATCH, XBMC_NOTIFY_ONDOWNLOAD, XBMC_UPDATE_FULL, XBMC_UPDATE_ONLYFIRST, \
                 XBMC_UPDATE_LIBRARY, XBMC_HOST, XBMC_USERNAME, XBMC_PASSWORD, \
                 USE_TRAKT, TRAKT_USERNAME, TRAKT_PASSWORD, TRAKT_API, \
@@ -530,7 +533,10 @@ def initialize(consoleLogging=True):
         NZBGET_PASSWORD = check_setting_str(CFG, 'NZBget', 'nzbget_password', 'tegbzn6789')
         NZBGET_CATEGORY = check_setting_str(CFG, 'NZBget', 'nzbget_category', 'tv')
         NZBGET_HOST = check_setting_str(CFG, 'NZBget', 'nzbget_host', '')
-
+        NZBGET_HOST_MAC = check_setting_str(CFG, 'NZBget', 'nzbget_host_mac', '')
+        NZBGET_WAKE_RETRIES = check_setting_int(CFG, 'NZBget', 'nzbget_wake_retries', 5)
+        NZBGET_WAKE_TIMEOUT = check_setting_int(CFG, 'NZBget', 'nzbget_wake_timeout', 20)
+        
         CheckSection(CFG, 'XBMC')
         USE_XBMC = bool(check_setting_int(CFG, 'XBMC', 'use_xbmc', 0))
         XBMC_NOTIFY_ONSNATCH = bool(check_setting_int(CFG, 'XBMC', 'xbmc_notify_onsnatch', 0))
@@ -1048,6 +1054,9 @@ def save_config():
     new_config['NZBget']['nzbget_password'] = NZBGET_PASSWORD
     new_config['NZBget']['nzbget_category'] = NZBGET_CATEGORY
     new_config['NZBget']['nzbget_host'] = NZBGET_HOST
+    new_config['NZBget']['nzbget_host_mac'] = NZBGET_HOST_MAC
+    new_config['NZBget']['nzbget_wake_retries'] = NZBGET_WAKE_RETRIES
+    new_config['NZBget']['nzbget_wake_timeout'] = NZBGET_WAKE_TIMEOUT
 
     new_config['XBMC'] = {}
     new_config['XBMC']['use_xbmc'] = int(USE_XBMC)
