@@ -172,6 +172,42 @@
                                     <span class="component-desc">Category for downloads to go into (eg. TV)</span>
                                 </label>
                             </div>
+                            
+                            
+                            
+                            <div class="field-pair">
+                                <label class="nocheck clearfix">
+                                    <span class="component-title">SABnzbd MAC</span>
+                                    <input type="text" name="sab_host_mac" value="$sickbeard.SAB_HOST_MAC" size="20" />
+                                </label>
+                                <label class="nocheck clearfix">
+                                    <span class="component-title">&nbsp;</span>
+                                    <span class="component-desc">MAC of SAB host for wake on LAN</span>
+                                </label>
+                            </div>
+                            
+                            <div class="field-pair">
+                                <label class="nocheck clearfix">
+                                    <span class="component-title">SABnzbd WoL retries</span>
+                                    <input type="text" name="sab_wake_retries" value="$sickbeard.SAB_WAKE_RETRIES" size="20" />
+                                </label>
+                                <label class="nocheck clearfix">
+                                    <span class="component-title">&nbsp;</span>
+                                    <span class="component-desc">Retries for waking SAB host</span>
+                                </label>
+                            </div>
+                            
+                            <div class="field-pair">
+                                <label class="nocheck clearfix">
+                                    <span class="component-title">SABnzbd WoL TIMEOUT</span>
+                                    <input type="text" name="sab_wake_timeout" value="$sickbeard.SAB_WAKE_TIMEOUT" size="20" />
+                                </label>
+                                <label class="nocheck clearfix">
+                                    <span class="component-title">&nbsp;</span>
+                                    <span class="component-desc">Timeout between WoL retries in seconds</span>
+                                </label>
+                            </div>
+                            
                         </div>
 
                         <div id="nzbget_settings">
