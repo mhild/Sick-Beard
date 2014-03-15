@@ -736,7 +736,7 @@ class ConfigSearch:
 
     @cherrypy.expose
     def saveSearch(self, use_nzbs=None, use_torrents=None, nzb_dir=None, sab_username=None, sab_password=None,
-                       sab_apikey=None, sab_category=None, sab_host=None, nzbget_username=None, nzbget_password=None, nzbget_category=None, nzbget_host=None,
+                       sab_apikey=None, sab_category=None, sab_host=None, sab_host_mac=None, sab_wake_retries=5, sab_wake_timeout=20, nzbget_username=None, nzbget_password=None, nzbget_category=None, nzbget_host=None,
                        torrent_dir=None, nzb_method=None, usenet_retention=None, search_frequency=None, download_propers=None):
 
         results = []
@@ -761,6 +761,9 @@ class ConfigSearch:
         sickbeard.SAB_APIKEY = sab_apikey.strip()
         sickbeard.SAB_CATEGORY = sab_category
         sickbeard.SAB_HOST = config.clean_url(sab_host)
+        sickbeard.SAB_HOST_MAC = sab_host_mac
+        sickbeard.SAB_WAKE_RETRIES = sab_wake_retries
+        sickbeard.SAB_WAKE_TIMEOUT = sab_wake_timeout
 
         if not config.change_NZB_DIR(nzb_dir):
             results += ["Unable to create directory " + os.path.normpath(nzb_dir) + ", directory not changed."]
