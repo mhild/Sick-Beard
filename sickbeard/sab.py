@@ -54,6 +54,7 @@ def sendNZB(nzb):
     if sickbeard.SAB_CATEGORY != None:
         params['cat'] = sickbeard.SAB_CATEGORY
     if sickbeard.SAB_HOST_MAC != None:
+        logger.log(u"Checking if SABnzb is available - otherwise sending magic packets", logger.DEBUG)
         wake_host.WakeHost(sickbeard.SAB_HOST_MAC,sickbeard.SAB_HOST,sickbeard.SAB_WAKE_RETRIES, sickbeard.SAB_WAKE_TIMEOUT)
 
     # if it aired recently make it high priority
