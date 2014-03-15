@@ -34,7 +34,7 @@ from sickbeard.common import USER_AGENT
 from sickbeard import logger
 from sickbeard.exceptions import ex
 
-import sickbeard.wake_host as wake_host
+from sickbeard import wake_host
 
 def sendNZB(nzb):
     """
@@ -54,7 +54,8 @@ def sendNZB(nzb):
     if sickbeard.SAB_CATEGORY != None:
         params['cat'] = sickbeard.SAB_CATEGORY
     if sickbeard.SAB_HOST_MAC != None:
-        wake_host.WakeHost(sickbeard.SAB_HOST_MAC,sickbeard.SAB_HOST,sickbeard.SAB_WAKE_RETRIES, sickbeard.SAB_WAKE_TIMEOUT)
+        logger.log(u"Checking if SABnzb is available - otherwise sending magic packets", logger.DEBUG)
+        wake_host.wakeHost(sickbeard.SAB_HOST_MAC,sickbeard.SAB_HOST,sickbeard.SAB_WAKE_RETRIES, sickbeard.SAB_WAKE_TIMEOUT)
 
     # if it aired recently make it high priority
     for curEp in nzb.episodes:

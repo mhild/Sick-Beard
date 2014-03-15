@@ -3,7 +3,7 @@ import struct, socket, sys, time, os
 from urlparse import urlparse
 
     #Test Connection function
-def TestCon(host):
+def testCon(host):
         o = urlparse(host)
         s = socket.socket()
         s.settimeout(1)
@@ -15,7 +15,7 @@ def TestCon(host):
             return "Down"
 
 #Wake function
-def WakeOnLan(ethernet_address):
+def wakeOnLan(ethernet_address):
 
         addr_byte = ethernet_address.split(':')
         hw_addr = struct.pack('BBBBBB', int(addr_byte[0], 16),
@@ -36,13 +36,13 @@ def WakeOnLan(ethernet_address):
         ss.sendto(msg, ('<broadcast>', 9))
         ss.close()
         
-def WakeHost(mac, host, retries, timeout):
+def wakeHost(mac, host, retries, timeout):
     
     i=1
     logger.log(u"Testing connectivity to host %s" % host)
-    while TestCon(host)=="Down" and i<retries+1:
+    while testCon(host)=="Down" and i<retries+1:
         i=i+1
         logger.log(u"host seems to be down - sending magic packet")
-        WakeOnLan(mac)    
+        wakeOnLan(mac)    
         time.sleep(timeout)
         
