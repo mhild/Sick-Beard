@@ -1,14 +1,14 @@
 import struct, socket, sys, time, os
-
+from sickbeard import logger
 from urlparse import urlparse
 
-    #Test Connection function
+#Test Connection function
 def testCon(host):
         o = urlparse(host)
         s = socket.socket()
         s.settimeout(1)
         try:
-            s.connect((o.hostname,o.port))
+            s.connect((o.hostname, o.port))
             return "Up"
             s.close()
         except socket.error, e:
@@ -38,11 +38,11 @@ def wakeOnLan(ethernet_address):
         
 def wakeHost(mac, host, retries, timeout):
     
-    i=1
-    logger.log(u"Testing connectivity to host %s" % host)
-    while testCon(host)=="Down" and i<retries+1:
-        i=i+1
-        logger.log(u"host seems to be down - sending magic packet")
-        wakeOnLan(mac)    
-        time.sleep(timeout)
+        i = 0
+        logger.log(u"Testing connectivity to host", logger.DEBUG)
+        while testCon(host) == "Down" and i < retries:
+            logger.log(u"host seems to be down - sending magic packet", logger.DEBUG)
+            wakeOnLan(mac)    
+            time.sleep(timeout)
+            i = i + 1
         
