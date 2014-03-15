@@ -57,6 +57,7 @@ def sendNZB(nzb):
         logger.log(u"Checking if SABnzb is available - otherwise sending magic packets", logger.DEBUG)
         wake_host.wakeHost(sickbeard.SAB_HOST_MAC,sickbeard.SAB_HOST,sickbeard.SAB_WAKE_RETRIES, sickbeard.SAB_WAKE_TIMEOUT)
 
+
     # if it aired recently make it high priority
     for curEp in nzb.episodes:
         if datetime.date.today() - curEp.airdate <= datetime.timedelta(days=7):

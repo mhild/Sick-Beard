@@ -38,11 +38,11 @@ def wakeOnLan(ethernet_address):
         
 def wakeHost(mac, host, retries, timeout):
     
-    i=1
-    logger.log(u"Testing connectivity to host %s" % host)
-    while testCon(host)=="Down" and i<retries+1:
-        i=i+1
+    i=0
+    logger.log(u"Testing connectivity to host")
+    while testCon(host)=="Down" and i<retries:
         logger.log(u"host seems to be down - sending magic packet")
         wakeOnLan(mac)    
         time.sleep(timeout)
+        i=i+1
         
