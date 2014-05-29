@@ -45,4 +45,7 @@ def wakeHost(mac, host, retries, timeout):
             wakeOnLan(mac)    
             time.sleep(timeout)
             i = i + 1
+            
+        if testCon(host) == "Down":
+            logger.log(u"host unreachable after sending "+retries+" magic packets - check if host is running", logger.INFO)
         
