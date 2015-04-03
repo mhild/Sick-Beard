@@ -52,10 +52,6 @@ def sendNZB(nzb):
         params['apikey'] = sickbeard.SAB_APIKEY
     if sickbeard.SAB_CATEGORY is not None:
         params['cat'] = sickbeard.SAB_CATEGORY
-    if sickbeard.SAB_HOST_MAC != None:
-        logger.log(u"Checking if SABnzb is available - otherwise sending magic packets", logger.DEBUG)
-        wake_host.wakeHost(sickbeard.SAB_HOST_MAC,sickbeard.SAB_HOST,sickbeard.SAB_WAKE_RETRIES, sickbeard.SAB_WAKE_TIMEOUT)
-
 
     # if it aired recently make it high priority
     for curEp in nzb.episodes:
@@ -73,6 +69,11 @@ def sendNZB(nzb):
         multiPartParams = {"nzbfile": (nzb.name + ".nzb", nzb.extraInfo[0])}
 
     url = sickbeard.SAB_HOST + "api?" + urllib.urlencode(params)
+
+    if sickbeard.SAB_HOST_MAC != None:
+        logger.log(u"Checking if SABnzb is available - otherwise sending magic packets", logger.DEBUG)
+        wake_host.wakeHost(sickbeard.SAB_HOST_MAC,sickbeard.SAB_HOST,sickbeard.SAB_WAKE_RETRIES, sickbeard.SAB_WAKE_TIMEOUT)
+
 
     logger.log(u"Sending NZB to SABnzbd: %s" % nzb.name)
     logger.log(u"SABnzbd URL: " + url, logger.DEBUG)
