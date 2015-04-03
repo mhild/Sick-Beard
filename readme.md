@@ -17,6 +17,7 @@ Features include:
 * can notify XBMC, Growl, or Twitter when new episodes are downloaded
 * specials and double episode support
 
+* Added wake-on-lan feature for sab/nzbget host in this repo
 
 Sick Beard makes use of the following projects:
 
