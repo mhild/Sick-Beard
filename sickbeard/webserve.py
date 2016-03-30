@@ -1,3 +1,4 @@
+
 # Author: Nic Wolfe <nic@wolfeden.ca>
 # URL: http://code.google.com/p/sickbeard/
 #
@@ -774,11 +775,12 @@ class ConfigSearch:
         t.submenu = ConfigMenu
         return _munge(t)
 
-    @cherrypy.expose
+    @cherrypy.expose
     def saveSearch(self, use_nzbs=None, use_torrents=None, nzb_dir=None, sab_username=None, sab_password=None,
                        sab_apikey=None, sab_category=None, sab_host=None, sab_host_mac=None, sab_wake_retries=5, sab_wake_timeout=20, 
                        nzbget_username=None, nzbget_password=None, nzbget_category=None, nzbget_host=None, nzbget_host_mac=None, nzbget_wake_retries=5, nzbget_wake_timeout=20,
                        torrent_dir=None, nzb_method=None, usenet_retention=None, search_frequency=None, download_propers=None, ignore_words=None):
+
 
 
         results = []
@@ -800,12 +802,10 @@ class ConfigSearch:
         sickbeard.SAB_PASSWORD = sab_password
         sickbeard.SAB_APIKEY = sab_apikey.strip()
         sickbeard.SAB_CATEGORY = sab_category
-
-        sickbeard.SAB_HOST = config.clean_url(sab_host)
         sickbeard.SAB_HOST_MAC = sab_host_mac
         sickbeard.SAB_WAKE_RETRIES = sab_wake_retries
         sickbeard.SAB_WAKE_TIMEOUT = sab_wake_timeout
-
+        
         if not config.change_NZB_DIR(nzb_dir):
             results += ["Unable to create directory " + os.path.normpath(nzb_dir) + ", directory not changed."]
 
@@ -1155,7 +1155,8 @@ class ConfigNotifications:
                               pytivo_host=None, pytivo_share_name=None, pytivo_tivo_name=None,
                           use_nma=None, nma_notify_onsnatch=None, nma_notify_ondownload=None, nma_api=None, nma_priority=None,
                           use_pushalot=None, pushalot_notify_onsnatch=None, pushalot_notify_ondownload=None, pushalot_authorizationtoken=None, pushalot_silent=None, pushalot_important=None,
-                          use_pushbullet=None, pushbullet_notify_onsnatch=None, pushbullet_notify_ondownload=None, pushbullet_access_token=None, pushbullet_device_iden=None, pushbullet_device_list=None
+                          use_pushbullet=None, pushbullet_notify_onsnatch=None, pushbullet_notify_ondownload=None, pushbullet_access_token=None, pushbullet_device_iden=None, pushbullet_device_list=None,
+                          use_slack=None, slack_notify_onsnatch=None, slack_notify_ondownload=None, slack_access_token=None, slack_channel=None, slack_bot_name=None, slack_icon_url=None
                           ):
 
         results = []
@@ -1263,6 +1264,14 @@ class ConfigNotifications:
         sickbeard.TRAKT_USERNAME = trakt_username
         sickbeard.TRAKT_PASSWORD = trakt_password
         sickbeard.TRAKT_API = trakt_api
+
+        sickbeard.USE_SLACK = config.checkbox_to_value(use_slack)
+        sickbeard.SLACK_NOTIFY_ONSNATCH = config.checkbox_to_value(slack_notify_onsnatch)
+        sickbeard.SLACK_NOTIFY_ONDOWNLOAD = config.checkbox_to_value(slack_notify_ondownload)
+        sickbeard.SLACK_ACCESS_TOKEN = slack_access_token
+        sickbeard.SLACK_CHANNEL = slack_channel
+        sickbeard.SLACK_BOT_NAME = slack_bot_name
+        sickbeard.SLACK_ICON_URL = slack_icon_url
 
         sickbeard.save_config()
 
@@ -2151,6 +2160,16 @@ class Home:
             return result
         else:
             return "{}"
+
+    @cherrypy.expose
+    def testSlack(self, accessToken=None, channel=None, bot_name=None, icon_url=None):
+        cherrypy.response.headers['Cache-Control'] = "max-age=0,no-cache,no-store"
+
+        result = notifiers.slack_notifier.test_notify(accessToken, channel, bot_name, icon_url)
+        if result:
+            return "Slack notification succeeded. Check your Slack clients to make sure it worked"
+        else:
+            return "Error sending Slack notification"
 
     @cherrypy.expose
     def shutdown(self, pid=None):
