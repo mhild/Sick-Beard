@@ -42,7 +42,7 @@ class EZRSSProvider(generic.TorrentProvider):
 
         self.cache = EZRSSCache(self)
 
-        self.url = 'https://www.ezrss.it/'
+        self.url = 'https://eztv.ag/'
 
     def isEnabled(self):
         return sickbeard.EZRSS
@@ -52,7 +52,7 @@ class EZRSSProvider(generic.TorrentProvider):
 
     def getQuality(self, item):
 
-        filename = helpers.get_xml_text(item.find('{http://xmlns.ezrss.it/0.1/}torrent/{http://xmlns.ezrss.it/0.1/}fileName'))
+        filename = helpers.get_xml_text(item.find('{//xmlns.ezrss.it/0.1/}torrent/{//xmlns.ezrss.it/0.1/}fileName'))
         quality = Quality.nameQuality(filename)
 
         return quality
@@ -78,7 +78,7 @@ class EZRSSProvider(generic.TorrentProvider):
 
         params['show_name'] = helpers.sanitizeSceneName(show.name, ezrss=True).replace('.', ' ').encode('utf-8')
 
-        if season != None:
+        if season is not None:
             params['season'] = season
 
         return [params]
@@ -107,7 +107,7 @@ class EZRSSProvider(generic.TorrentProvider):
         if search_params:
             params.update(search_params)
 
-        search_url = self.url + 'search/index.php?' + urllib.urlencode(params)
+        search_url = self.url + 'search/?' + urllib.urlencode(params)
 
         logger.log(u"Search string: " + search_url, logger.DEBUG)
 
@@ -135,14 +135,14 @@ class EZRSSProvider(generic.TorrentProvider):
                 logger.log(u"Adding item from RSS to results: " + title, logger.DEBUG)
                 results.append(curItem)
             else:
-                logger.log(u"The XML returned from the " + self.name + " RSS feed is incomplete, this result is unusable", logger.ERROR)
+                logger.log(u"The XML returned from the " + self.name + " RSS feed is empty or incomplete, this result is unusable", logger.ERROR)
 
         return results
 
     def _get_title_and_url(self, item):
         (title, url) = generic.TorrentProvider._get_title_and_url(self, item)
 
-        filename = helpers.get_xml_text(item.find('{http://xmlns.ezrss.it/0.1/}torrent/{http://xmlns.ezrss.it/0.1/}fileName'))
+        filename = helpers.get_xml_text(item.find('{//xmlns.ezrss.it/0.1/}torrent/{//xmlns.ezrss.it/0.1/}fileName'))
 
         if filename:
             new_title = self._extract_name_from_filename(filename)
@@ -172,7 +172,7 @@ class EZRSSCache(tvcache.TVCache):
 
     def _getRSSData(self):
 
-        rss_url = self.provider.url + 'feed/'
+        rss_url = self.provider.url + 'ezrss.xml'
         logger.log(self.provider.name + " cache update URL: " + rss_url, logger.DEBUG)
 
         data = self.provider.getURL(rss_url)
@@ -193,7 +193,7 @@ class EZRSSCache(tvcache.TVCache):
             self._addCacheEntry(title, url)
 
         else:
-            logger.log(u"The XML returned from the " + self.provider.name + " feed is incomplete, this result is unusable", logger.ERROR)
+            logger.log(u"The XML returned from the " + self.provider.name + " feed is empty or incomplete, this result is unusable", logger.ERROR)
             return
 
 provider = EZRSSProvider()
