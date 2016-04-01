@@ -1916,9 +1916,13 @@ class Home:
     postprocess = HomePostProcess()
 
     @cherrypy.expose
-    def testSABnzbd(self, host=None, username=None, password=None, apikey=None):
+    def testSABnzbd(self, host=None, username=None, password=None, apikey=None, mac=None, retries=None, timeout=None ):
 
         host = config.clean_url(host)
+        
+        if mac != None:
+            logger.log(u"Checking if SABnzb is available - otherwise sending magic packets", logger.DEBUG)
+            wake_host.wakeHost(mac, host, retries, timeout)
 
         connection, accesMsg = sab.getSabAccesMethod(host, username, password, apikey)
         if connection:

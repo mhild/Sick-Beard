@@ -36,7 +36,7 @@ def wakeOnLan(ethernet_address):
         ss.sendto(msg, ('<broadcast>', 9))
         ss.close()
         
-def wakeHost(mac, host, retries, timeout):
+def wakeHost(mac, host, retries=5, timeout=20):
     
         i = 0
         logger.log(u"Testing connectivity to host", logger.DEBUG)
